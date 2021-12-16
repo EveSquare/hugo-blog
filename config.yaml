@@ -12,7 +12,7 @@ menu:
     name: Archive
     title: Archive
     url: /posts/
-    weight: 0
+    weight: 1
 
 params:
   author: "EveSquare"
@@ -36,10 +36,6 @@ params:
   utterancesTheme: "" # optional
   utterancesIssue: "" # optional
   utterancesLabel: "" # optional
-  webmentions:
-    url: https://yourdomain.com/webemntions/receive
-    login: hugo-theme-anubis
-    pingback: true
   social:
   - id: github
     name: EveSquare
