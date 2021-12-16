@@ -1,15 +1,127 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Anubis</title>
+    <title>Posts on EveSquare</title>
     <link>/posts/</link>
-    <description>Anubis (Posts)</description>
+    <description>EveSquare (Posts)</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Wed, 15 Dec 2021 09:40:26 +0900</lastBuildDate>
+    <language>ja</language>
+    <lastBuildDate>Thu, 16 Dec 2021 09:10:50 +0900</lastBuildDate>
     
     <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Chrome Extention</title>
+      <link>/posts/chrome-extention/</link>
+      <pubDate>Thu, 16 Dec 2021 09:10:50 +0900</pubDate>
+      
+      <guid>/posts/chrome-extention/</guid>
+      <description>&lt;h1 id=&#34;web-extension-intercepting-request&#34;&gt;Web extension intercepting request&lt;/h1&gt;
+&lt;h3 id=&#34;やりたかったこと&#34;&gt;やりたかったこと&lt;/h3&gt;
+&lt;p&gt;GETリクエストのResponseBodyを取得したい．
+&lt;img src=&#34;https://raw.githubusercontent.com/EveSquare/images/main/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202021-12-14%2016.28.49.png?token=AMA45GUE2M5AHV37VB6JJDTBYGBPE&#34; alt=&#34;chrome devtools&#34;&gt;&lt;/p&gt;
+&lt;p&gt;候補として以下の3つがヒットした．&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;# × webRequest.onBeforeRequest.addListener&#34;&gt;webRequest.onBeforeRequest.addListner&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;# × devtools.network.onRequestFinished.addListener&#34;&gt;devtools.network.onRequestFinished.addListener&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;# × monkey patch&#34;&gt;mokey patch&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;結論として全て不可能であった．&lt;/p&gt;
+&lt;h2 id=&#34;-webrequestonbeforerequestaddlistener&#34;&gt;× webRequest.onBeforeRequest.addListener&lt;/h2&gt;
+&lt;p&gt;extensionが扱える関数でリクエストをブロックするなどの利用用途がある．
+このリスナーで受け取れるデータは，URLなどのヘッダ情報のみであった．&lt;/p&gt;
+&lt;p&gt;実際に動かしたプログラム&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sample-extension/
+    backgtound.js
+    manifest.json
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//background.js
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;chrome&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;webRequest&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;onBeforeRequest&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;addListener&lt;/span&gt;(
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;request_callback&lt;/span&gt;,
+    {
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;urls&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;lt;all_urls&amp;gt;&amp;#39;&lt;/span&gt;],
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;types&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;xmlhttprequest&amp;#39;&lt;/span&gt;],
+    },
+    [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;blocking&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;requestBody&amp;#34;&lt;/span&gt;]
+);
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;request_callback&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;details&lt;/span&gt;) {
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;details&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;===&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;GET&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;details&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;===&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;xmlhttprequest&amp;#34;&lt;/span&gt;) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;details&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;url&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;match&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;MER_URL_PATTERN&lt;/span&gt;)) {
+            &lt;span style=&#34;color:#a6e22e&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;details&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;requestBody&lt;/span&gt;); &lt;span style=&#34;color:#75715e&#34;&gt;//undefined
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//manifest.json
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;{
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;manifest_version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Extension&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;0.0.0&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;permissions&amp;#34;&lt;/span&gt;: [
+      &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;lt;all_urls&amp;gt;&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;webRequest&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;webRequestBlocking&amp;#34;&lt;/span&gt;,
+    ],
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;background&amp;#34;&lt;/span&gt;: {
+      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;scripts&amp;#34;&lt;/span&gt;: [
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;background.js&amp;#34;&lt;/span&gt;
+      ]
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;backgroundコンソール(Chromeの拡張機能から確認できる)にBodyが表示されているはず．&lt;/p&gt;
+&lt;h1 id=&#34;-a-hrefhttpsdeveloperchromecomdocsextensionsreferencedevtools_networkdevtoolsnetworkonrequestfinishedaddlistenera&#34;&gt;× &lt;a href=&#34;https://developer.chrome.com/docs/extensions/reference/devtools_network/&#34;&gt;devtools.network.onRequestFinished.addListener&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://developer.chrome.com/docs/extensions/reference/devtools_network/&#34;&gt;documentation&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Chromeのdevelop toolを開いた状態でないと実行されないらしい．
+&lt;code&gt;devtools&lt;/code&gt;を使用する場合は&lt;code&gt;js&lt;/code&gt;ファイルを読み込むHTMLファイルを用意する必要がある．&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sample-extension2/
+    devtools.js
+    devtools.html
+    manifest.json
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//devtools.js
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;handleRequestFinished&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;) {
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;chrome&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;devtools&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;inspectedWindow&lt;/span&gt;.eval(&lt;span style=&#34;color:#e6db74&#34;&gt;`console.log(&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;url&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;);`&lt;/span&gt;);
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;getContent&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;content&lt;/span&gt;) {
+            &lt;span style=&#34;color:#a6e22e&#34;&gt;chrome&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;devtools&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;inspectedWindow&lt;/span&gt;.eval(&lt;span style=&#34;color:#e6db74&#34;&gt;`console.log(&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;content&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;);`&lt;/span&gt;);
+        });
+    }
+}
+
+&lt;span style=&#34;color:#a6e22e&#34;&gt;chrome&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;devtools&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;network&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;onRequestFinished&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;addListener&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;handleRequestFinished&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-html5&#34; data-lang=&#34;html5&#34;&gt;&amp;lt;!-- devtools.html --&amp;gt;
+&amp;lt;html&amp;gt;
+    &amp;lt;head&amp;gt;
+        &amp;lt;script src=&amp;quot;devtools.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;/head&amp;gt;
+    &amp;lt;body&amp;gt;&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//manifest.json
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;{
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Extension&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1.0&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;manifest_version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;devtools_page&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;devtools.html&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;permissions&amp;#34;&lt;/span&gt;: [
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;lt;all_urls&amp;gt;&amp;#34;&lt;/span&gt;
+    ]
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;POSTのデータはBodyを確認することが出来たが，GETレスポンスのBodyは値が無かった．&lt;/p&gt;
+&lt;h1 id=&#34;-monkey-patch&#34;&gt;× monkey patch&lt;/h1&gt;
+&lt;p&gt;散見された記事によると&lt;code&gt;window.XMLHttpRequest.prototype.open&lt;/code&gt;を書き換えることでinterceptできるらしい．
+うまくいかず．&lt;/p&gt;
+&lt;h5 id=&#34;以下ソース&#34;&gt;以下ソース&lt;/h5&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://stackoverflow.com/questions/52969381/how-can-i-capture-all-network-requests-and-full-response-data-when-loading-a-pag&#34;&gt;How can I capture all network requests and full response data when loading a page in Chrome?&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://betterprogramming.pub/chrome-extension-intercepting-and-reading-the-body-of-http-requests-dd9ebdf2348b&#34;&gt;Chrome Extension: Reading the BODY of an HTTP response object&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://stackoverflow.com/questions/18534771/chrome-extension-how-to-get-http-response-body&#34;&gt;Chrome Extension - How to get HTTP Response Body?
+&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+    </item>
     
     <item>
       <title>First Post</title>

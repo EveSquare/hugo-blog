@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+
+
+<html lang="ja" data-theme="">
+<head>
+    
+        
+<meta charset="utf-8">
+<meta name="HandheldFriendly" content="True">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+<title>Chrome Extention - EveSquare</title>
+
+<meta name="description" content="Web extension intercepting request やりたかったこと GETリクエストのResponseBodyを取得したい． 候補として以下の3つがヒットした．
+ webRequest.onBeforeRequest.addListner devtools.network.onRequestFinished.addListener mokey patch  結論として全て不可能であった．
+× webRequest.onBeforeRequest.addListener extensionが扱える関数でリクエストをブロックするなどの利用用途がある． このリスナーで受け取れるデータは，URLなどのヘッダ情報のみであった．
+実際に動かしたプログラム
+sample-extension/ backgtound.js manifest.json //background.js chrome.webRequest.onBeforeRequest.addListener( request_callback, { urls: [&#39;&lt;all_urls&gt;&#39;], types: [&#39;xmlhttprequest&#39;], }, [&#34;blocking&#34;, &#34;requestBody&#34;] ); function request_callback(details) { if (details.method === &#34;GET&#34; &amp;&amp; details.type === &#34;xmlhttprequest&#34;) { if (details.url.match(MER_URL_PATTERN)) { console.log(details.requestBody); //undefined  } } } //manifest.json { &#34;manifest_version&#34;: 2, &#34;name&#34;: &#34;Extension&#34;, &#34;version&#34;: &#34;0.0.0&#34;, &#34;permissions&#34;: [ &#34;&lt;all_urls&gt;&#34;, &#34;webRequest&#34;, &#34;webRequestBlocking&#34;, ], &#34;background&#34;: { &#34;scripts&#34;: [ &#34;background.">
+
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon-precomposed" href="favicon.png">
+
+
+
+    
+
+
+
+
+
+    
+    
+        
+    
+    
+
+    
+        <link rel="stylesheet" href="/css/style.min.4160606103e8e9f321b9c50135eb26a98ed69b2c7a2beb258ad3ae7de2196ba5.css" integrity="sha256-QWBgYQPo6fMhucUBNesmqY7Wmyx6K&#43;slitOufeIZa6U=">
+    
+
+
+
+
+
+
+<meta property="og:title" content="Chrome Extention" />
+<meta property="og:description" content="Web extension intercepting request やりたかったこと GETリクエストのResponseBodyを取得したい． 候補として以下の3つがヒットした．
+ webRequest.onBeforeRequest.addListner devtools.network.onRequestFinished.addListener mokey patch  結論として全て不可能であった．
+× webRequest.onBeforeRequest.addListener extensionが扱える関数でリクエストをブロックするなどの利用用途がある． このリスナーで受け取れるデータは，URLなどのヘッダ情報のみであった．
+実際に動かしたプログラム
+sample-extension/ backgtound.js manifest.json //background.js chrome.webRequest.onBeforeRequest.addListener( request_callback, { urls: [&#39;&lt;all_urls&gt;&#39;], types: [&#39;xmlhttprequest&#39;], }, [&#34;blocking&#34;, &#34;requestBody&#34;] ); function request_callback(details) { if (details.method === &#34;GET&#34; &amp;&amp; details.type === &#34;xmlhttprequest&#34;) { if (details.url.match(MER_URL_PATTERN)) { console.log(details.requestBody); //undefined  } } } //manifest.json { &#34;manifest_version&#34;: 2, &#34;name&#34;: &#34;Extension&#34;, &#34;version&#34;: &#34;0.0.0&#34;, &#34;permissions&#34;: [ &#34;&lt;all_urls&gt;&#34;, &#34;webRequest&#34;, &#34;webRequestBlocking&#34;, ], &#34;background&#34;: { &#34;scripts&#34;: [ &#34;background." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/chrome-extention/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-12-16T09:10:50+09:00" />
+<meta property="article:modified_time" content="2021-12-16T09:10:50+09:00" />
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Chrome Extention"/>
+<meta name="twitter:description" content="Web extension intercepting request やりたかったこと GETリクエストのResponseBodyを取得したい． 候補として以下の3つがヒットした．
+ webRequest.onBeforeRequest.addListner devtools.network.onRequestFinished.addListener mokey patch  結論として全て不可能であった．
+× webRequest.onBeforeRequest.addListener extensionが扱える関数でリクエストをブロックするなどの利用用途がある． このリスナーで受け取れるデータは，URLなどのヘッダ情報のみであった．
+実際に動かしたプログラム
+sample-extension/ backgtound.js manifest.json //background.js chrome.webRequest.onBeforeRequest.addListener( request_callback, { urls: [&#39;&lt;all_urls&gt;&#39;], types: [&#39;xmlhttprequest&#39;], }, [&#34;blocking&#34;, &#34;requestBody&#34;] ); function request_callback(details) { if (details.method === &#34;GET&#34; &amp;&amp; details.type === &#34;xmlhttprequest&#34;) { if (details.url.match(MER_URL_PATTERN)) { console.log(details.requestBody); //undefined  } } } //manifest.json { &#34;manifest_version&#34;: 2, &#34;name&#34;: &#34;Extension&#34;, &#34;version&#34;: &#34;0.0.0&#34;, &#34;permissions&#34;: [ &#34;&lt;all_urls&gt;&#34;, &#34;webRequest&#34;, &#34;webRequestBlocking&#34;, ], &#34;background&#34;: { &#34;scripts&#34;: [ &#34;background."/>
+
+
+
+    
+        <link rel="webmention" href="https://webmention.io/hugo-theme-anubis/webmention" />
+        
+            <link rel="pingback" href="https://webmention.io/hugo-theme-anubis/xmlrpc" />
+        
+    
+    
+        <link rel="webmention" href="https://yourdomain.com/webemntions/receive" />
+    
+
+
+
+
+
+
+
+
+
+    
+</head>
+<body>
+    <a class="skip-main" href="#main">Skip to main content</a>
+    <div class="container">
+        <header class="common-header"> 
+            
+                <div class="header-top">
+    <h1 class="site-title">
+        <a href="/">EveSquare</a>
+    </h1>
+    <ul class="social-icons">
+
+
+    
+        
+        
+        <li>
+            <a href="https://github.com/EveSquare" title="Github" rel="me">
+            <span class="inline-svg" >
+
+
+
+
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+    
+        <li>
+            <a href="https://twitter.com/evesquare_dev" title="Twitter" rel="me">
+                <span class="inline-svg" >
+
+
+
+
+    
+<?xml version="1.0"?><svg fill="#000000" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="21px" height="21px">    <path fill="currentColor" d="M25,2C12.317,2,2,12.317,2,25s10.317,23,23,23s23-10.317,23-23S37.683,2,25,2z M36.237,20.524 c0.01,0.236,0.016,0.476,0.016,0.717C36.253,28.559,30.68,37,20.491,37c-3.128,0-6.041-0.917-8.491-2.489 c0.433,0.052,0.872,0.077,1.321,0.077c2.596,0,4.985-0.884,6.879-2.37c-2.424-0.044-4.468-1.649-5.175-3.847 c0.339,0.065,0.686,0.1,1.044,0.1c0.505,0,0.995-0.067,1.458-0.195c-2.532-0.511-4.441-2.747-4.441-5.432c0-0.024,0-0.047,0-0.07 c0.747,0.415,1.6,0.665,2.509,0.694c-1.488-0.995-2.464-2.689-2.464-4.611c0-1.015,0.272-1.966,0.749-2.786 c2.733,3.351,6.815,5.556,11.418,5.788c-0.095-0.406-0.145-0.828-0.145-1.262c0-3.059,2.48-5.539,5.54-5.539 c1.593,0,3.032,0.672,4.042,1.749c1.261-0.248,2.448-0.709,3.518-1.343c-0.413,1.292-1.292,2.378-2.437,3.064 c1.122-0.136,2.188-0.432,3.183-0.873C38.257,18.766,37.318,19.743,36.237,20.524z"/></svg>
+
+</span>
+
+            </a>
+        </li>
+    
+
+</ul>
+
+</div>
+
+    <nav>
+        
+        
+        <a class="" href="/posts/" title="Archive">Archive</a>
+        
+    </nav>
+
+
+
+
+            
+        </header>
+        <main id="main" tabindex="-1"> 
+            
+    
+
+    <article class="post h-entry">
+        <header class="post-header">
+            <h1 class="p-name post-title draft">Chrome Extention</h1>
+
+            
+        </header>
+        <div class="content e-content">
+            <h1 id="web-extension-intercepting-request">Web extension intercepting request</h1>
+<h3 id="やりたかったこと">やりたかったこと</h3>
+<p>GETリクエストのResponseBodyを取得したい．
+<img src="https://raw.githubusercontent.com/EveSquare/images/main/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202021-12-14%2016.28.49.png?token=AMA45GUE2M5AHV37VB6JJDTBYGBPE" alt="chrome devtools"></p>
+<p>候補として以下の3つがヒットした．</p>
+<ul>
+<li><a href="# × webRequest.onBeforeRequest.addListener">webRequest.onBeforeRequest.addListner</a></li>
+<li><a href="# × devtools.network.onRequestFinished.addListener">devtools.network.onRequestFinished.addListener</a></li>
+<li><a href="# × monkey patch">mokey patch</a></li>
+</ul>
+<p>結論として全て不可能であった．</p>
+<h2 id="-webrequestonbeforerequestaddlistener">× webRequest.onBeforeRequest.addListener</h2>
+<p>extensionが扱える関数でリクエストをブロックするなどの利用用途がある．
+このリスナーで受け取れるデータは，URLなどのヘッダ情報のみであった．</p>
+<p>実際に動かしたプログラム</p>
+<pre tabindex="0"><code>sample-extension/
+    backgtound.js
+    manifest.json
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">//background.js
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">webRequest</span>.<span style="color:#a6e22e">onBeforeRequest</span>.<span style="color:#a6e22e">addListener</span>(
+    <span style="color:#a6e22e">request_callback</span>,
+    {
+        <span style="color:#a6e22e">urls</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;&lt;all_urls&gt;&#39;</span>],
+        <span style="color:#a6e22e">types</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;xmlhttprequest&#39;</span>],
+    },
+    [<span style="color:#e6db74">&#34;blocking&#34;</span>, <span style="color:#e6db74">&#34;requestBody&#34;</span>]
+);
+
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">request_callback</span>(<span style="color:#a6e22e">details</span>) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">details</span>.<span style="color:#a6e22e">method</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#34;GET&#34;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">details</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#34;xmlhttprequest&#34;</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">details</span>.<span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">match</span>(<span style="color:#a6e22e">MER_URL_PATTERN</span>)) {
+            <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">details</span>.<span style="color:#a6e22e">requestBody</span>); <span style="color:#75715e">//undefined
+</span><span style="color:#75715e"></span>        }
+    }
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#75715e">//manifest.json
+</span><span style="color:#75715e"></span>{
+    <span style="color:#f92672">&#34;manifest_version&#34;</span>: <span style="color:#ae81ff">2</span>,
+    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Extension&#34;</span>,
+    <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.0.0&#34;</span>,
+    <span style="color:#f92672">&#34;permissions&#34;</span>: [
+      <span style="color:#e6db74">&#34;&lt;all_urls&gt;&#34;</span>,
+      <span style="color:#e6db74">&#34;webRequest&#34;</span>,
+      <span style="color:#e6db74">&#34;webRequestBlocking&#34;</span>,
+    ],
+    <span style="color:#f92672">&#34;background&#34;</span>: {
+      <span style="color:#f92672">&#34;scripts&#34;</span>: [
+        <span style="color:#e6db74">&#34;background.js&#34;</span>
+      ]
+    }
+}
+</code></pre></div><p>backgroundコンソール(Chromeの拡張機能から確認できる)にBodyが表示されているはず．</p>
+<h1 id="-a-hrefhttpsdeveloperchromecomdocsextensionsreferencedevtools_networkdevtoolsnetworkonrequestfinishedaddlistenera">× <a href="https://developer.chrome.com/docs/extensions/reference/devtools_network/">devtools.network.onRequestFinished.addListener</a></h1>
+<p><a href="https://developer.chrome.com/docs/extensions/reference/devtools_network/">documentation</a></p>
+<p>Chromeのdevelop toolを開いた状態でないと実行されないらしい．
+<code>devtools</code>を使用する場合は<code>js</code>ファイルを読み込むHTMLファイルを用意する必要がある．</p>
+<pre tabindex="0"><code>sample-extension2/
+    devtools.js
+    devtools.html
+    manifest.json
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">//devtools.js
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">handleRequestFinished</span>(<span style="color:#a6e22e">request</span>) {
+        <span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">devtools</span>.<span style="color:#a6e22e">inspectedWindow</span>.eval(<span style="color:#e6db74">`console.log(&#39;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">url</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;);`</span>);
+        <span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">getContent</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">content</span>) {
+            <span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">devtools</span>.<span style="color:#a6e22e">inspectedWindow</span>.eval(<span style="color:#e6db74">`console.log(&#39;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">content</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;);`</span>);
+        });
+    }
+}
+
+<span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">devtools</span>.<span style="color:#a6e22e">network</span>.<span style="color:#a6e22e">onRequestFinished</span>.<span style="color:#a6e22e">addListener</span>(<span style="color:#a6e22e">handleRequestFinished</span>);
+</code></pre></div><pre tabindex="0"><code class="language-html5" data-lang="html5">&lt;!-- devtools.html --&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;script src=&quot;devtools.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#75715e">//manifest.json
+</span><span style="color:#75715e"></span>{
+    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Extension&#34;</span>,
+    <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;1.0&#34;</span>,
+    <span style="color:#f92672">&#34;manifest_version&#34;</span>: <span style="color:#ae81ff">2</span>,
+    <span style="color:#f92672">&#34;devtools_page&#34;</span>: <span style="color:#e6db74">&#34;devtools.html&#34;</span>,
+    <span style="color:#f92672">&#34;permissions&#34;</span>: [
+        <span style="color:#e6db74">&#34;&lt;all_urls&gt;&#34;</span>
+    ]
+}
+
+</code></pre></div><p>POSTのデータはBodyを確認することが出来たが，GETレスポンスのBodyは値が無かった．</p>
+<h1 id="-monkey-patch">× monkey patch</h1>
+<p>散見された記事によると<code>window.XMLHttpRequest.prototype.open</code>を書き換えることでinterceptできるらしい．
+うまくいかず．</p>
+<h5 id="以下ソース">以下ソース</h5>
+<blockquote>
+<p><a href="https://stackoverflow.com/questions/52969381/how-can-i-capture-all-network-requests-and-full-response-data-when-loading-a-pag">How can I capture all network requests and full response data when loading a page in Chrome?</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://betterprogramming.pub/chrome-extension-intercepting-and-reading-the-body-of-http-requests-dd9ebdf2348b">Chrome Extension: Reading the BODY of an HTTP response object</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://stackoverflow.com/questions/18534771/chrome-extension-how-to-get-http-response-body">Chrome Extension - How to get HTTP Response Body?
+</a></p>
+</blockquote>
+
+        </div>
+        
+
+    
+
+
+<div class="post-info">
+    
+        <div class="post-date dt-published">2021-12-16</div>
+    
+
+    <a class="post-hidden-url u-url" href="/posts/chrome-extention/">/posts/chrome-extention/</a>
+    <a href="" class="p-name p-author post-hidden-author h-card" rel="me">EveSquare</a>
+
+
+    <div class="post-taxonomies">
+        
+            
+    </div>
+</div>
+
+    </article>
+
+    
+        
+    <div class="pagination post-pagination">
+        <div class="left pagination-item disabled">
+            
+        </div>
+        <div class="right pagination-item ">
+            
+                <a href="/posts/first-post/">First Post</a>
+            
+        </div>
+    </div>
+
+
+
+
+    
+
+    
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "eve" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    
+
+    
+
+
+        </main>
+        
+            <footer class="common-footer">
+    
+    
+
+    <div class="common-footer-bottom">
+        
+        <div class="copyright">
+            <p>© EveSquare, 2021<br>
+            Powered by <a target="_blank" rel="noopener noreferrer" href="https://gohugo.io/">Hugo</a>, theme <a target="_blank" rel="noopener noreferrer" href="https://github.com/mitrichius/hugo-theme-anubis">Anubis</a>.<br>
+            
+            </p>  
+        </div> 
+
+        
+
+    
+
+
+
+    <button class="theme-switcher">
+        Dark theme
+    </button>
+
+    <script>
+    const STORAGE_KEY = 'user-color-scheme'
+    const defaultTheme = "auto"
+
+    let currentTheme
+    let switchButton
+    let autoDefinedScheme = window.matchMedia('(prefers-color-scheme: dark)')
+
+    const autoChangeScheme = e => {
+        currentTheme = e.matches ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', currentTheme)
+        changeButtonText()
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        switchButton = document.querySelector('.theme-switcher')
+        currentTheme = detectCurrentScheme()
+        if (currentTheme == 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark')
+        }
+        if (currentTheme == 'auto') {
+            autoChangeScheme(autoDefinedScheme);
+            autoDefinedScheme.addListener(autoChangeScheme);
+        }
+        changeButtonText()
+        switchButton.addEventListener('click', switchTheme, false)
+    })
+
+    function detectCurrentScheme() {
+        if (localStorage.getItem(STORAGE_KEY)) {
+            return localStorage.getItem(STORAGE_KEY)
+        } 
+        if (defaultTheme) {
+            return defaultTheme
+        } 
+        if (!window.matchMedia) {
+            return 'light'
+        } 
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark'
+        }
+        return 'light'
+    }
+
+    function changeButtonText()
+    {   
+        switchButton.textContent = currentTheme == 'dark' ?  "Light theme" : "Dark theme"
+    }
+
+    function switchTheme(e) {
+        if (currentTheme == 'dark') {
+            localStorage.setItem(STORAGE_KEY, 'light')
+            document.documentElement.setAttribute('data-theme', 'light')
+            currentTheme = 'light'
+        } else {
+            localStorage.setItem(STORAGE_KEY, 'dark')
+            document.documentElement.setAttribute('data-theme', 'dark')
+            currentTheme = 'dark'
+        }
+        changeButtonText()
+    }
+    </script>
+   
+    </div>
+
+    <p class="h-card vcard">
+
+    <a href= class="p-name u-url url fn" rel="me">EveSquare</a> 
+
+     
+        /
+        <a class="p-email u-email email" rel="me" href="mailto:evesquare@protonmail.ch">evesquare@protonmail.ch</a>
+    
+
+     
+        <img class="u-photo" src="/images/me.png" />
+    
+</p> 
+</footer>
+
+        
+    </div>
+</body>
+</html>

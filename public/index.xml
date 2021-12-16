@@ -1,15 +1,198 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Anubis</title>
+    <title>EveSquare</title>
     <link>/</link>
-    <description>Anubis</description>
+    <description>EveSquare</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Wed, 15 Dec 2021 09:40:26 +0900</lastBuildDate>
+    <language>ja</language>
+    <lastBuildDate>Thu, 16 Dec 2021 09:10:50 +0900</lastBuildDate>
     
     <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Chrome Extention</title>
+      <link>/posts/chrome-extention/</link>
+      <pubDate>Thu, 16 Dec 2021 09:10:50 +0900</pubDate>
+      
+      <guid>/posts/chrome-extention/</guid>
+      <description>&lt;h1 id=&#34;web-extension-intercepting-request&#34;&gt;Web extension intercepting request&lt;/h1&gt;
+&lt;h3 id=&#34;やりたかったこと&#34;&gt;やりたかったこと&lt;/h3&gt;
+&lt;p&gt;GETリクエストのResponseBodyを取得したい．
+&lt;img src=&#34;https://raw.githubusercontent.com/EveSquare/images/main/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202021-12-14%2016.28.49.png?token=AMA45GUE2M5AHV37VB6JJDTBYGBPE&#34; alt=&#34;chrome devtools&#34;&gt;&lt;/p&gt;
+&lt;p&gt;候補として以下の3つがヒットした．&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;# × webRequest.onBeforeRequest.addListener&#34;&gt;webRequest.onBeforeRequest.addListner&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;# × devtools.network.onRequestFinished.addListener&#34;&gt;devtools.network.onRequestFinished.addListener&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;# × monkey patch&#34;&gt;mokey patch&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;結論として全て不可能であった．&lt;/p&gt;
+&lt;h2 id=&#34;-webrequestonbeforerequestaddlistener&#34;&gt;× webRequest.onBeforeRequest.addListener&lt;/h2&gt;
+&lt;p&gt;extensionが扱える関数でリクエストをブロックするなどの利用用途がある．
+このリスナーで受け取れるデータは，URLなどのヘッダ情報のみであった．&lt;/p&gt;
+&lt;p&gt;実際に動かしたプログラム&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sample-extension/
+    backgtound.js
+    manifest.json
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//background.js
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;chrome&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;webRequest&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;onBeforeRequest&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;addListener&lt;/span&gt;(
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;request_callback&lt;/span&gt;,
+    {
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;urls&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;lt;all_urls&amp;gt;&amp;#39;&lt;/span&gt;],
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;types&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;xmlhttprequest&amp;#39;&lt;/span&gt;],
+    },
+    [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;blocking&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;requestBody&amp;#34;&lt;/span&gt;]
+);
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;request_callback&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;details&lt;/span&gt;) {
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;details&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;method&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;===&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;GET&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;details&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;===&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;xmlhttprequest&amp;#34;&lt;/span&gt;) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;details&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;url&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;match&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;MER_URL_PATTERN&lt;/span&gt;)) {
+            &lt;span style=&#34;color:#a6e22e&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;details&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;requestBody&lt;/span&gt;); &lt;span style=&#34;color:#75715e&#34;&gt;//undefined
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//manifest.json
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;{
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;manifest_version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Extension&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;0.0.0&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;permissions&amp;#34;&lt;/span&gt;: [
+      &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;lt;all_urls&amp;gt;&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;webRequest&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;webRequestBlocking&amp;#34;&lt;/span&gt;,
+    ],
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;background&amp;#34;&lt;/span&gt;: {
+      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;scripts&amp;#34;&lt;/span&gt;: [
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;background.js&amp;#34;&lt;/span&gt;
+      ]
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;backgroundコンソール(Chromeの拡張機能から確認できる)にBodyが表示されているはず．&lt;/p&gt;
+&lt;h1 id=&#34;-a-hrefhttpsdeveloperchromecomdocsextensionsreferencedevtools_networkdevtoolsnetworkonrequestfinishedaddlistenera&#34;&gt;× &lt;a href=&#34;https://developer.chrome.com/docs/extensions/reference/devtools_network/&#34;&gt;devtools.network.onRequestFinished.addListener&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://developer.chrome.com/docs/extensions/reference/devtools_network/&#34;&gt;documentation&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Chromeのdevelop toolを開いた状態でないと実行されないらしい．
+&lt;code&gt;devtools&lt;/code&gt;を使用する場合は&lt;code&gt;js&lt;/code&gt;ファイルを読み込むHTMLファイルを用意する必要がある．&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sample-extension2/
+    devtools.js
+    devtools.html
+    manifest.json
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//devtools.js
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;handleRequestFinished&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;) {
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;chrome&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;devtools&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;inspectedWindow&lt;/span&gt;.eval(&lt;span style=&#34;color:#e6db74&#34;&gt;`console.log(&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;url&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;);`&lt;/span&gt;);
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;getContent&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;content&lt;/span&gt;) {
+            &lt;span style=&#34;color:#a6e22e&#34;&gt;chrome&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;devtools&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;inspectedWindow&lt;/span&gt;.eval(&lt;span style=&#34;color:#e6db74&#34;&gt;`console.log(&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;content&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;);`&lt;/span&gt;);
+        });
+    }
+}
+
+&lt;span style=&#34;color:#a6e22e&#34;&gt;chrome&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;devtools&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;network&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;onRequestFinished&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;addListener&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;handleRequestFinished&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-html5&#34; data-lang=&#34;html5&#34;&gt;&amp;lt;!-- devtools.html --&amp;gt;
+&amp;lt;html&amp;gt;
+    &amp;lt;head&amp;gt;
+        &amp;lt;script src=&amp;quot;devtools.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;/head&amp;gt;
+    &amp;lt;body&amp;gt;&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//manifest.json
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;{
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Extension&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1.0&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;manifest_version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;devtools_page&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;devtools.html&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;permissions&amp;#34;&lt;/span&gt;: [
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;lt;all_urls&amp;gt;&amp;#34;&lt;/span&gt;
+    ]
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;POSTのデータはBodyを確認することが出来たが，GETレスポンスのBodyは値が無かった．&lt;/p&gt;
+&lt;h1 id=&#34;-monkey-patch&#34;&gt;× monkey patch&lt;/h1&gt;
+&lt;p&gt;散見された記事によると&lt;code&gt;window.XMLHttpRequest.prototype.open&lt;/code&gt;を書き換えることでinterceptできるらしい．
+うまくいかず．&lt;/p&gt;
+&lt;h5 id=&#34;以下ソース&#34;&gt;以下ソース&lt;/h5&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://stackoverflow.com/questions/52969381/how-can-i-capture-all-network-requests-and-full-response-data-when-loading-a-pag&#34;&gt;How can I capture all network requests and full response data when loading a page in Chrome?&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://betterprogramming.pub/chrome-extension-intercepting-and-reading-the-body-of-http-requests-dd9ebdf2348b&#34;&gt;Chrome Extension: Reading the BODY of an HTTP response object&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://stackoverflow.com/questions/18534771/chrome-extension-how-to-get-http-response-body&#34;&gt;Chrome Extension - How to get HTTP Response Body?
+&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>01three.js</title>
+      <link>/three.js/01three.js/</link>
+      <pubDate>Thu, 16 Dec 2021 09:09:40 +0900</pubDate>
+      
+      <guid>/three.js/01three.js/</guid>
+      <description>&lt;h1 id=&#34;threejs学習&#34;&gt;Three.js学習&lt;/h1&gt;
+&lt;h2 id=&#34;threejs一般初期設定&#34;&gt;Three.js一般初期設定&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;scene&lt;/code&gt;, &lt;code&gt;camera&lt;/code&gt;, &lt;code&gt;renderer&lt;/code&gt;
+の定義&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;scene&lt;/code&gt;
+-&amp;gt;  表示したいすべての光源を保持して変更を監視するコンテナオブジェクト&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;camera&lt;/code&gt;
+-&amp;gt;  シーンを描画するときに何が見えるかを決定する．&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;renderer&lt;/code&gt;
+-&amp;gt;  cameraオブジェクトの角度に基づいてブラウザ内でsceneオブジェクトがどのように見えるかを計算する&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;scene&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;THREE&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Scene&lt;/span&gt;();
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;camera&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;THREE&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;PerspectiveCamera&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;45&lt;/span&gt;, window.&lt;span style=&#34;color:#a6e22e&#34;&gt;innerWidth&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; window.&lt;span style=&#34;color:#a6e22e&#34;&gt;innerHeight&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1000&lt;/span&gt;);
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;renderer&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;THREE&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;WebGLRenderer&lt;/span&gt;();
+&lt;span style=&#34;color:#a6e22e&#34;&gt;renderer&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;setClearColor&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;THREE&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Color&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;0xEEEEEE&lt;/span&gt;));
+&lt;span style=&#34;color:#a6e22e&#34;&gt;renderer&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;setSize&lt;/span&gt;(window.&lt;span style=&#34;color:#a6e22e&#34;&gt;innerWidth&lt;/span&gt;, window.&lt;span style=&#34;color:#a6e22e&#34;&gt;innerHeight&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;axesオブジェクト生成&#34;&gt;axesオブジェクト生成&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/EveSquare/images/main/axes.png?token=AMA45GTAYH25JCXWNGUO6JDBXGNHY&#34; alt=&#34;axesとは&#34;&gt;
+赤，青，緑の線のこと&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;axes&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;THREE&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;AxisHelper&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt;); &lt;span style=&#34;color:#75715e&#34;&gt;//60は長さ
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;scene&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;add&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;axes&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;平面を作成&#34;&gt;平面を作成&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/EveSquare/images/main/axes.png?token=AMA45GTAYH25JCXWNGUO6JDBXGNHY&#34; alt=&#34;平面を作成&#34;&gt;
+灰色の薄っぺらい平面のこと&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;planeGeometry&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;THREE&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;PlaneGeometry&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;幅&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;高さ&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;);
+&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;planeMaterial&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;THREE&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;MeshBasicMaterial&lt;/span&gt;({&lt;span style=&#34;color:#a6e22e&#34;&gt;color&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0xcccccc&lt;/span&gt;}); &lt;span style=&#34;color:#75715e&#34;&gt;//見た目の設定
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;plane&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;THREE&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Mesh&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;planeGeometry&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;planeMaterial&lt;/span&gt;); &lt;span style=&#34;color:#75715e&#34;&gt;//2つを組み合わせてplaneというMeshオブジェクトにする
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;正しい位置に配置する&#34;&gt;正しい位置に配置する&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//x軸周りに90度回転
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;plane&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;rotation&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;x&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; Math.&lt;span style=&#34;color:#a6e22e&#34;&gt;PI&lt;/span&gt;;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;plane&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;position&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;x&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;plane&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;position&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;y&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;plane&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;position&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;z&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+
+&lt;span style=&#34;color:#a6e22e&#34;&gt;scene&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;add&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;plane&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;cudeオブジェクトqsphereオブジェクト&#34;&gt;cudeオブジェクト,qsphereオブジェクト&lt;/h1&gt;
+&lt;p&gt;マテリアルのwireframeプロパティがtrueに設定されているため，Three.jsはソリッドなオブジェクトではなく，ワイヤーフレームを描画します．&lt;/p&gt;
+&lt;p&gt;&lt;small&gt;※プログラムはオライリージャパン出版の「初めてのThree.js」から引用&lt;/small&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>00three.js</title>
+      <link>/three.js/00three.js/</link>
+      <pubDate>Thu, 16 Dec 2021 09:09:19 +0900</pubDate>
+      
+      <guid>/three.js/00three.js/</guid>
+      <description>&lt;h1 id=&#34;threejsとはなにか&#34;&gt;Three.jsとはなにか&lt;/h1&gt;
+&lt;h2 id=&#34;webglの本来複雑な処理を簡単に記述することが出来るライブラリ&#34;&gt;WebGLの本来複雑な処理を簡単に記述することが出来るライブラリ&lt;/h2&gt;
+&lt;p&gt;JavaScriptからWebGLを直接プログラミングするとき3Dシーンをアニメーションさせる
+処理は非常に複雑で間違いを起こしやすい．そこでThree.jsを使うことで大幅に簡単にしてくれる．&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;単純あるいは複雑な3D形状の作成&lt;/li&gt;
+&lt;li&gt;3Dシーン上のオブジェクトのアニメーションや移動&lt;/li&gt;
+&lt;li&gt;オブジェクトへのテクスチャやマテリアルの適用&lt;/li&gt;
+&lt;li&gt;シーンを照らすさまざまな光源の利用&lt;/li&gt;
+&lt;li&gt;3Dモデリングソフトウェアからのオブジェクトの読み込み&lt;/li&gt;
+&lt;li&gt;3Dシーンへの高度なポストプロセッシング効果の追加&lt;/li&gt;
+&lt;li&gt;独自に作成したカスタムシェーダの使用&lt;/li&gt;
+&lt;li&gt;ポイントクラウドの作成&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>First Post</title>
