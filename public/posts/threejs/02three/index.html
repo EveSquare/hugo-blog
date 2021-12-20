@@ -222,7 +222,36 @@ var step = 0; renderScene(); function renderScene() { ~~~~~~ //球のバウン�
 <p>また，<code>step</code>変数は運動速度のパラメータで大きければ大きい程速くなる．</p>
 <p><img src="/images/three/02/sphere2_animation.gif" alt="円(Sphere)の運動アニメーション"></p>
 <p>速度が上昇していることが確認できる．</p>
-<h2 id="余談">余談</h2>
+<h1 id="stats">Stats</h1>
+<p>一番上に載っている画像右上のフレームレートを表示させる．</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">stats</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">initStats</span>();
+<span style="color:#f92672">~~~~~</span>
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">initStats() {</span>
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">stats</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> (&lt;<span style="color:#f92672">any</span>&gt;<span style="color:#a6e22e">Stats</span>)();
+    <span style="color:#a6e22e">stats</span>.<span style="color:#a6e22e">setMode</span>(<span style="color:#ae81ff">0</span>); <span style="color:#75715e">// 0: fps, 1: ms
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">stats</span>.<span style="color:#a6e22e">domElement</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">position</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;absolute&#39;</span>;
+    <span style="color:#a6e22e">stats</span>.<span style="color:#a6e22e">domElement</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">left</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;0px&#39;</span>;
+    <span style="color:#a6e22e">stats</span>.<span style="color:#a6e22e">domElement</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">top</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;0px&#39;</span>;
+    document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#34;Stats-output&#34;</span>)<span style="color:#f92672">!</span>.<span style="color:#a6e22e">appendChild</span>(<span style="color:#a6e22e">stats</span>.<span style="color:#a6e22e">domElement</span>);
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">stats</span>;
+}
+</code></pre></div><h1 id="datgui">dat.gui</h1>
+<p>同じく左上に表示されているシークバーを表示する．</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#75715e">//変更する値を定義
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">controls</span> <span style="color:#f92672">=</span> {
+    <span style="color:#a6e22e">rotationSpeed</span>: <span style="color:#66d9ef">0.02</span>,
+    <span style="color:#a6e22e">bouncingSpeed</span>: <span style="color:#66d9ef">0.02</span>
+}
+
+<span style="color:#75715e">//シークバーを表示
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">gui</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">dat</span>.<span style="color:#a6e22e">GUI</span>();
+<span style="color:#a6e22e">gui</span>.<span style="color:#a6e22e">add</span>(<span style="color:#a6e22e">controls</span>, <span style="color:#e6db74">&#39;rotationSpeed&#39;</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0.5</span>);
+<span style="color:#a6e22e">gui</span>.<span style="color:#a6e22e">add</span>(<span style="color:#a6e22e">controls</span>, <span style="color:#e6db74">&#39;bouncingSpeed&#39;</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0.5</span>);
+<span style="color:#f92672">~~~</span><span style="color:#75715e">//以下のように使用する．
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">cube</span>.<span style="color:#a6e22e">rotation</span>.<span style="color:#a6e22e">x</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">controls</span>.<span style="color:#a6e22e">rotationSpeed</span>;
+<span style="color:#a6e22e">cube</span>.<span style="color:#a6e22e">rotation</span>.<span style="color:#a6e22e">y</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">controls</span>.<span style="color:#a6e22e">rotationSpeed</span>;
+<span style="color:#a6e22e">cube</span>.<span style="color:#a6e22e">rotation</span>.<span style="color:#a6e22e">z</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">controls</span>.<span style="color:#a6e22e">rotationSpeed</span>;
+</code></pre></div><h2 id="余談">余談</h2>
 <p>TypeScriptでコードを書くにあたってDOM操作をしようとするとなんかエラー出る時の対処法．</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript">document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#34;Stats-output&#34;</span>)<span style="color:#f92672">!</span>.<span style="color:#a6e22e">appendChild</span>(<span style="color:#a6e22e">stats</span>.<span style="color:#a6e22e">domElement</span>);
 </code></pre></div><p>getElementById~の後に「!」を付けることでエラーなく動作する．
