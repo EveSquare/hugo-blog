@@ -18,7 +18,69 @@
       
       <guid>https://evesquare.netlify.app/posts/threejs/02three/</guid>
       <description>&lt;h1 id=&#34;アニメーション&#34;&gt;アニメーション&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&#34;static/images/cube_animation.gif&#34; alt=&#34;キューブアニメーション&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://evesquare.netlify.app/images/three/02/02threefin.png&#34; alt=&#34;最終状態&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;環境構築&#34;&gt;環境構築&lt;/h1&gt;
+&lt;p&gt;HTMLに直で書くのは型がなくてつらいため，ここから環境を変更した．
+環境構築には以下のサイトを参考にした．&lt;a href=&#34;https://ics.media/entry/16329/&#34;&gt;webpack+TypeScript+Three.jsの最小構成&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;これにより，ホットリロードでTypeScriptが使える環境となった．&lt;/p&gt;
+&lt;h3 id=&#34;追加したライブラリ&#34;&gt;追加したライブラリ&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Stats(three.jsを入れた時に付属)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;  再生しているフレームレートを確認できるライブラリ
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-typescript&#34; data-lang=&#34;typescript&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Stats&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;three/examples/jsm/libs/stats.module&amp;#39;&lt;/span&gt;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/dataarts/dat.gui&#34;&gt;dat.gui&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;  アニメーションや座標などのデバッグを容易にするライブラリ &amp;lt;small&amp;gt;Googleが作っている..？&amp;lt;/small&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-typescript&#34; data-lang=&#34;typescript&#34;&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;$&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;npm&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;install&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;save&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;dat&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;gui&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;~~~&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;dat&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;dat.gui&amp;#39;&lt;/span&gt;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;キューブアニメーションの実現&#34;&gt;キューブアニメーションの実現&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;https://evesquare.netlify.app/images/three/02/cube_animation.gif&#34; alt=&#34;キューブアニメーション&#34;&gt;&lt;/p&gt;
+&lt;p&gt;キューブを回すアニメーションを記述した．&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;renderScene()&lt;/code&gt;という関数を容易してその関数内に&lt;code&gt;requestAnimationFrame&lt;/code&gt;という関数を呼び出すことで，アニメーションを描画することができる．&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-typescript&#34; data-lang=&#34;typescript&#34;&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;renderScene&lt;/span&gt;();
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;renderScene() {&lt;/span&gt;
+    &lt;span style=&#34;color:#75715e&#34;&gt;//立方体の回転
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;cube&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;rotation&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;x&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.02&lt;/span&gt;;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;cube&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;rotation&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;y&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.02&lt;/span&gt;;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;cube&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;rotation&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;z&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.02&lt;/span&gt;;
+    &lt;span style=&#34;color:#f92672&#34;&gt;~~~~~~~&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;requestAnimationFrame&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;renderScene&lt;/span&gt;);
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;renderer&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;render&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;scene&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;camera&lt;/span&gt;);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;以上のコードで上にアニメーションが実現出来た．
+ここでのポイントは&lt;code&gt;rotation.x | y | z&lt;/code&gt;である．回すときは&lt;code&gt;rotation&lt;/code&gt;プロパティを用いる．&lt;/p&gt;
+&lt;h1 id=&#34;円sphereの運動アニメーション&#34;&gt;円(Sphere)の運動アニメーション&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;https://evesquare.netlify.app/images/three/02/sphere_animation.gif&#34; alt=&#34;円(Sphere)の運動アニメーション&#34;&gt;&lt;/p&gt;
+&lt;p&gt;円の運動アニメーションを実現する為，以下のコードを記述した．&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-typescript&#34; data-lang=&#34;typescript&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;step&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;renderScene&lt;/span&gt;();
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;renderScene() {&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;~~~~~~&lt;/span&gt;
+    &lt;span style=&#34;color:#75715e&#34;&gt;//球のバウンド
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;step&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.02&lt;/span&gt;;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;sphere&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;position&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;x&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; ( &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; (Math.&lt;span style=&#34;color:#a6e22e&#34;&gt;cos&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;step&lt;/span&gt;)));
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;sphere&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;position&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;y&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; ( &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; Math.&lt;span style=&#34;color:#a6e22e&#34;&gt;abs&lt;/span&gt;(Math.&lt;span style=&#34;color:#a6e22e&#34;&gt;sin&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;step&lt;/span&gt;)));
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;requestAnimationFrame&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;renderScene&lt;/span&gt;);
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;renderer&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;render&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;scene&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;camera&lt;/span&gt;);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;同じく&lt;code&gt;renderScene()&lt;/code&gt;内に記述した．円が円運動をするため&lt;code&gt;Math.cos | sin&lt;/code&gt;などを用いて計算している．&lt;/p&gt;
+&lt;p&gt;また，&lt;code&gt;step&lt;/code&gt;変数は運動速度のパラメータで大きければ大きい程速くなる．&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://evesquare.netlify.app/images/three/02/sphere2_animation.gif&#34; alt=&#34;円(Sphere)の運動アニメーション&#34;&gt;&lt;/p&gt;
+&lt;p&gt;速度が上昇していることが確認できる．&lt;/p&gt;
+&lt;h2 id=&#34;余談&#34;&gt;余談&lt;/h2&gt;
+&lt;p&gt;TypeScriptでコードを書くにあたってDOM操作をしようとするとなんかエラー出る時の対処法．&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-typescript&#34; data-lang=&#34;typescript&#34;&gt;document.&lt;span style=&#34;color:#a6e22e&#34;&gt;getElementById&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Stats-output&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;appendChild&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;stats&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;domElement&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;getElementById~の後に「!」を付けることでエラーなく動作する．
+詳しくはWebで&lt;/p&gt;
 </description>
     </item>
     
