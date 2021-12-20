@@ -1,5 +1,5 @@
 languageCode: "ja"
-baseUrl: ""
+baseUrl: "https://evesquare.netlify.app"
 title: "EveSquare"
 theme: "anubis"
 paginate: 10
@@ -46,3 +46,6 @@ markup:
   goldmark:
     renderer:
       unsafe: true # enable raw HTML in Markdown
+
+staticDir:
+- static

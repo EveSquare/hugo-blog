@@ -2,21 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on EveSquare</title>
-    <link>/posts/</link>
+    <link>https://evesquare.netlify.app/posts/</link>
     <description>EveSquare (Posts)</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Thu, 16 Dec 2021 09:10:50 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 20 Dec 2021 22:33:18 +0900</lastBuildDate>
     
-    <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://evesquare.netlify.app/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>02three</title>
+      <link>https://evesquare.netlify.app/posts/threejs/02three/</link>
+      <pubDate>Mon, 20 Dec 2021 22:33:18 +0900</pubDate>
+      
+      <guid>https://evesquare.netlify.app/posts/threejs/02three/</guid>
+      <description>&lt;h1 id=&#34;アニメーション&#34;&gt;アニメーション&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;static/images/cube_animation.gif&#34; alt=&#34;キューブアニメーション&#34;&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Chrome Extention</title>
-      <link>/posts/chrome-extention/</link>
+      <link>https://evesquare.netlify.app/posts/chrome-extention/</link>
       <pubDate>Thu, 16 Dec 2021 09:10:50 +0900</pubDate>
       
-      <guid>/posts/chrome-extention/</guid>
+      <guid>https://evesquare.netlify.app/posts/chrome-extention/</guid>
       <description>&lt;h1 id=&#34;web-extension-intercepting-request&#34;&gt;Web extension intercepting request&lt;/h1&gt;
 &lt;h3 id=&#34;やりたかったこと&#34;&gt;やりたかったこと&lt;/h3&gt;
 &lt;p&gt;GETリクエストのResponseBodyを取得したい．
@@ -124,12 +135,73 @@
     </item>
     
     <item>
-      <title>First Post</title>
-      <link>/posts/first-post/</link>
-      <pubDate>Wed, 15 Dec 2021 09:40:26 +0900</pubDate>
+      <title>01three.js</title>
+      <link>https://evesquare.netlify.app/posts/threejs/01three/</link>
+      <pubDate>Thu, 16 Dec 2021 09:09:40 +0900</pubDate>
       
-      <guid>/posts/first-post/</guid>
-      <description>&lt;h1 id=&#34;title-second-post&#34;&gt;title: &amp;ldquo;Second Post&amp;rdquo;&lt;/h1&gt;
+      <guid>https://evesquare.netlify.app/posts/threejs/01three/</guid>
+      <description>&lt;h1 id=&#34;threejs学習&#34;&gt;Three.js学習&lt;/h1&gt;
+&lt;h2 id=&#34;threejs一般初期設定&#34;&gt;Three.js一般初期設定&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;scene&lt;/code&gt;, &lt;code&gt;camera&lt;/code&gt;, &lt;code&gt;renderer&lt;/code&gt;
+の定義&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;scene&lt;/code&gt;
+-&amp;gt;  表示したいすべての光源を保持して変更を監視するコンテナオブジェクト&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;camera&lt;/code&gt;
+-&amp;gt;  シーンを描画するときに何が見えるかを決定する．&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;renderer&lt;/code&gt;
+-&amp;gt;  cameraオブジェクトの角度に基づいてブラウザ内でsceneオブジェクトがどのように見えるかを計算する&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;scene&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;THREE&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Scene&lt;/span&gt;();
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;camera&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;THREE&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;PerspectiveCamera&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;45&lt;/span&gt;, window.&lt;span style=&#34;color:#a6e22e&#34;&gt;innerWidth&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; window.&lt;span style=&#34;color:#a6e22e&#34;&gt;innerHeight&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1000&lt;/span&gt;);
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;renderer&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;THREE&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;WebGLRenderer&lt;/span&gt;();
+&lt;span style=&#34;color:#a6e22e&#34;&gt;renderer&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;setClearColor&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;THREE&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Color&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;0xEEEEEE&lt;/span&gt;));
+&lt;span style=&#34;color:#a6e22e&#34;&gt;renderer&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;setSize&lt;/span&gt;(window.&lt;span style=&#34;color:#a6e22e&#34;&gt;innerWidth&lt;/span&gt;, window.&lt;span style=&#34;color:#a6e22e&#34;&gt;innerHeight&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;axesオブジェクト生成&#34;&gt;axesオブジェクト生成&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/EveSquare/images/main/axes.png?token=AMA45GTAYH25JCXWNGUO6JDBXGNHY&#34; alt=&#34;axesとは&#34;&gt;
+赤，青，緑の線のこと&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;axes&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;THREE&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;AxisHelper&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt;); &lt;span style=&#34;color:#75715e&#34;&gt;//60は長さ
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;scene&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;add&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;axes&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;平面を作成&#34;&gt;平面を作成&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/EveSquare/images/main/axes.png?token=AMA45GTAYH25JCXWNGUO6JDBXGNHY&#34; alt=&#34;平面を作成&#34;&gt;
+灰色の薄っぺらい平面のこと&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;planeGeometry&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;THREE&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;PlaneGeometry&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;幅&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;高さ&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;);
+&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;planeMaterial&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;THREE&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;MeshBasicMaterial&lt;/span&gt;({&lt;span style=&#34;color:#a6e22e&#34;&gt;color&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0xcccccc&lt;/span&gt;}); &lt;span style=&#34;color:#75715e&#34;&gt;//見た目の設定
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;plane&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;THREE&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Mesh&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;planeGeometry&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;planeMaterial&lt;/span&gt;); &lt;span style=&#34;color:#75715e&#34;&gt;//2つを組み合わせてplaneというMeshオブジェクトにする
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;正しい位置に配置する&#34;&gt;正しい位置に配置する&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//x軸周りに90度回転
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;plane&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;rotation&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;x&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; Math.&lt;span style=&#34;color:#a6e22e&#34;&gt;PI&lt;/span&gt;;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;plane&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;position&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;x&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;plane&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;position&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;y&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;plane&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;position&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;z&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+
+&lt;span style=&#34;color:#a6e22e&#34;&gt;scene&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;add&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;plane&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;cudeオブジェクトqsphereオブジェクト&#34;&gt;cudeオブジェクト,qsphereオブジェクト&lt;/h1&gt;
+&lt;p&gt;マテリアルのwireframeプロパティがtrueに設定されているため，Three.jsはソリッドなオブジェクトではなく，ワイヤーフレームを描画します．&lt;/p&gt;
+&lt;p&gt;&lt;small&gt;※プログラムはオライリージャパン出版の「初めてのThree.js」から引用&lt;/small&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>00three.js</title>
+      <link>https://evesquare.netlify.app/posts/threejs/00three/</link>
+      <pubDate>Thu, 16 Dec 2021 09:09:19 +0900</pubDate>
+      
+      <guid>https://evesquare.netlify.app/posts/threejs/00three/</guid>
+      <description>&lt;h1 id=&#34;threejsとはなにか&#34;&gt;Three.jsとはなにか&lt;/h1&gt;
+&lt;h2 id=&#34;webglの本来複雑な処理を簡単に記述することが出来るライブラリ&#34;&gt;WebGLの本来複雑な処理を簡単に記述することが出来るライブラリ&lt;/h2&gt;
+&lt;p&gt;JavaScriptからWebGLを直接プログラミングするとき3Dシーンをアニメーションさせる
+処理は非常に複雑で間違いを起こしやすい．そこでThree.jsを使うことで大幅に簡単にしてくれる．&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;単純あるいは複雑な3D形状の作成&lt;/li&gt;
+&lt;li&gt;3Dシーン上のオブジェクトのアニメーションや移動&lt;/li&gt;
+&lt;li&gt;オブジェクトへのテクスチャやマテリアルの適用&lt;/li&gt;
+&lt;li&gt;シーンを照らすさまざまな光源の利用&lt;/li&gt;
+&lt;li&gt;3Dモデリングソフトウェアからのオブジェクトの読み込み&lt;/li&gt;
+&lt;li&gt;3Dシーンへの高度なポストプロセッシング効果の追加&lt;/li&gt;
+&lt;li&gt;独自に作成したカスタムシェーダの使用&lt;/li&gt;
+&lt;li&gt;ポイントクラウドの作成&lt;/li&gt;
+&lt;/ul&gt;
 </description>
     </item>
     

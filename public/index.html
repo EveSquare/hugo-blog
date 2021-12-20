@@ -15,9 +15,9 @@
 
 <meta name="description" content="">
 
-<link rel="alternate" type="application/rss+xml" href="/index.xml" title="EveSquare" />
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="apple-touch-icon-precomposed" href="favicon.png">
+<link rel="alternate" type="application/rss+xml" href="https://evesquare.netlify.app/index.xml" title="EveSquare" />
+<link rel="icon" type="image/x-icon" href="https://evesquare.netlify.app/favicon.ico">
+<link rel="apple-touch-icon-precomposed" href="https://evesquare.netlify.app/favicon.png">
 
 
 
@@ -34,7 +34,7 @@
     
 
     
-        <link rel="stylesheet" href="/css/style.min.4160606103e8e9f321b9c50135eb26a98ed69b2c7a2beb258ad3ae7de2196ba5.css" integrity="sha256-QWBgYQPo6fMhucUBNesmqY7Wmyx6K&#43;slitOufeIZa6U=">
+        <link rel="stylesheet" href="https://evesquare.netlify.app/css/style.min.4160606103e8e9f321b9c50135eb26a98ed69b2c7a2beb258ad3ae7de2196ba5.css" integrity="sha256-QWBgYQPo6fMhucUBNesmqY7Wmyx6K&#43;slitOufeIZa6U=">
     
 
 
@@ -45,7 +45,7 @@
 <meta property="og:title" content="EveSquare" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="/" />
+<meta property="og:url" content="https://evesquare.netlify.app/" />
 
 
 <meta name="twitter:card" content="summary"/>
@@ -53,16 +53,6 @@
 <meta name="twitter:description" content=""/>
 
 
-
-    
-        <link rel="webmention" href="https://webmention.io/hugo-theme-anubis/webmention" />
-        
-            <link rel="pingback" href="https://webmention.io/hugo-theme-anubis/xmlrpc" />
-        
-    
-    
-        <link rel="webmention" href="https://yourdomain.com/webemntions/receive" />
-    
 
 
 
@@ -129,9 +119,7 @@
     <nav>
         
         
-        <a class="" href="/posts/" title="Archive">Archive</a>
-        
-        <a class="" href="/thre.js/" title="Three">Three</a>
+        <a class="" href="https://evesquare.netlify.app/posts/" title="Archive">Archive</a>
         
     </nav>
 
@@ -148,6 +136,41 @@
 
     <div class="articles h-feed">
         
+        
+            <article class="post-list h-feed">
+    <header class="post-header">
+        <h1 class="p-name post-title draft"><a class="u-url" href="/posts/threejs/02three/">02three</a></h1>
+        
+    </header>
+
+    
+        <div class="content post-summary p-summary">
+            アニメーション 
+        </div>
+    
+    
+    
+    
+
+    
+
+
+<div class="post-info">
+    
+        <div class="post-date dt-published">2021-12-20</div>
+    
+
+    <a class="post-hidden-url u-url" href="https://evesquare.netlify.app/posts/threejs/02three/">https://evesquare.netlify.app/posts/threejs/02three/</a>
+    <a href="https://evesquare.netlify.app" class="p-name p-author post-hidden-author h-card" rel="me">EveSquare</a>
+
+
+    <div class="post-taxonomies">
+        
+            
+    </div>
+</div>
+
+</article>
         
             <article class="post-list h-feed">
     <header class="post-header">
@@ -176,8 +199,8 @@ sample-extension/ backgtound.js manifest.json //background.js chrome.webRequest.
         <div class="post-date dt-published">2021-12-16</div>
     
 
-    <a class="post-hidden-url u-url" href="/posts/chrome-extention/">/posts/chrome-extention/</a>
-    <a href="" class="p-name p-author post-hidden-author h-card" rel="me">EveSquare</a>
+    <a class="post-hidden-url u-url" href="https://evesquare.netlify.app/posts/chrome-extention/">https://evesquare.netlify.app/posts/chrome-extention/</a>
+    <a href="https://evesquare.netlify.app" class="p-name p-author post-hidden-author h-card" rel="me">EveSquare</a>
 
 
     <div class="post-taxonomies">
@@ -190,13 +213,19 @@ sample-extension/ backgtound.js manifest.json //background.js chrome.webRequest.
         
             <article class="post-list h-feed">
     <header class="post-header">
-        <h1 class="p-name post-title draft"><a class="u-url" href="/posts/first-post/">First Post</a></h1>
+        <h1 class="p-name post-title draft"><a class="u-url" href="/posts/threejs/01three/">01three.js</a></h1>
         
     </header>
 
     
         <div class="content post-summary p-summary">
-            title: &ldquo;Second Post&rdquo; 
+            Three.js学習 Three.js一般初期設定 scene, camera, renderer の定義
+scene -&gt; 表示したいすべての光源を保持して変更を監視するコンテナオブジェクト
+camera -&gt; シーンを描画するときに何が見えるかを決定する．
+renderer -&gt; cameraオブジェクトの角度に基づいてブラウザ内でsceneオブジェクトがどのように見えるかを計算する
+var scene = new THREE.Scene(); var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000); var renderer = new THREE.WebGLRenderer(); renderer.setClearColor(new THREE.Color(0xEEEEEE)); renderer.setSize(window.innerWidth, window.innerHeight); axesオブジェクト生成 赤，青，緑の線のこと
+var axes = new THREE.AxisHelper(60); //60は長さ scene.add(axes); 平面を作成 灰色の薄っぺらい平面のこと
+var planeGeometry = new THREE.PlaneGeometry(&lt;幅&gt;, &lt;高さ&gt;); var planeMaterial = new THREE.MeshBasicMaterial({color: 0xcccccc}); //見た目の設定 var plane = new THREE.Mesh(planeGeometry, planeMaterial); //2つを組み合わせてplaneというMeshオブジェクトにする 正しい位置に配置する //x軸周りに90度回転 plane.
         </div>
     
     
@@ -208,11 +237,47 @@ sample-extension/ backgtound.js manifest.json //background.js chrome.webRequest.
 
 <div class="post-info">
     
-        <div class="post-date dt-published">2021-12-15</div>
+        <div class="post-date dt-published">2021-12-16</div>
     
 
-    <a class="post-hidden-url u-url" href="/posts/first-post/">/posts/first-post/</a>
-    <a href="" class="p-name p-author post-hidden-author h-card" rel="me">EveSquare</a>
+    <a class="post-hidden-url u-url" href="https://evesquare.netlify.app/posts/threejs/01three/">https://evesquare.netlify.app/posts/threejs/01three/</a>
+    <a href="https://evesquare.netlify.app" class="p-name p-author post-hidden-author h-card" rel="me">EveSquare</a>
+
+
+    <div class="post-taxonomies">
+        
+            
+    </div>
+</div>
+
+</article>
+        
+            <article class="post-list h-feed">
+    <header class="post-header">
+        <h1 class="p-name post-title draft"><a class="u-url" href="/posts/threejs/00three/">00three.js</a></h1>
+        
+    </header>
+
+    
+        <div class="content post-summary p-summary">
+            Three.jsとはなにか WebGLの本来複雑な処理を簡単に記述することが出来るライブラリ JavaScriptからWebGLを直接プログラミングするとき3Dシーンをアニメーションさせる 処理は非常に複雑で間違いを起こしやすい．そこでThree.jsを使うことで大幅に簡単にしてくれる．
+ 単純あるいは複雑な3D形状の作成 3Dシーン上のオブジェクトのアニメーションや移動 オブジェクトへのテクスチャやマテリアルの適用 シーンを照らすさまざまな光源の利用 3Dモデリングソフトウェアからのオブジェクトの読み込み 3Dシーンへの高度なポストプロセッシング効果の追加 独自に作成したカスタムシェーダの使用 ポイントクラウドの作成  
+        </div>
+    
+    
+    
+    
+
+    
+
+
+<div class="post-info">
+    
+        <div class="post-date dt-published">2021-12-16</div>
+    
+
+    <a class="post-hidden-url u-url" href="https://evesquare.netlify.app/posts/threejs/00three/">https://evesquare.netlify.app/posts/threejs/00three/</a>
+    <a href="https://evesquare.netlify.app" class="p-name p-author post-hidden-author h-card" rel="me">EveSquare</a>
 
 
     <div class="post-taxonomies">
@@ -320,7 +385,7 @@ sample-extension/ backgtound.js manifest.json //background.js chrome.webRequest.
 
     <p class="h-card vcard">
 
-    <a href= class="p-name u-url url fn" rel="me">EveSquare</a> 
+    <a href=https://evesquare.netlify.app class="p-name u-url url fn" rel="me">EveSquare</a> 
 
      
         /

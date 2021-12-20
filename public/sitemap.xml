@@ -2,29 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/posts/chrome-extention/</loc>
+    <loc>https://evesquare.netlify.app/posts/threejs/02three/</loc>
+    <lastmod>2021-12-20T22:33:18+09:00</lastmod>
+  </url><url>
+    <loc>https://evesquare.netlify.app/</loc>
+    <lastmod>2021-12-20T22:33:18+09:00</lastmod>
+  </url><url>
+    <loc>https://evesquare.netlify.app/posts/</loc>
+    <lastmod>2021-12-20T22:33:18+09:00</lastmod>
+  </url><url>
+    <loc>https://evesquare.netlify.app/posts/chrome-extention/</loc>
     <lastmod>2021-12-16T09:10:50+09:00</lastmod>
   </url><url>
-    <loc>/</loc>
-    <lastmod>2021-12-16T09:10:50+09:00</lastmod>
-  </url><url>
-    <loc>/posts/</loc>
-    <lastmod>2021-12-16T09:10:50+09:00</lastmod>
-  </url><url>
-    <loc>/three.js/01three.js/</loc>
+    <loc>https://evesquare.netlify.app/posts/threejs/01three/</loc>
     <lastmod>2021-12-16T09:09:40+09:00</lastmod>
   </url><url>
-    <loc>/three.js/</loc>
-    <lastmod>2021-12-16T09:09:40+09:00</lastmod>
-  </url><url>
-    <loc>/three.js/00three.js/</loc>
+    <loc>https://evesquare.netlify.app/posts/threejs/00three/</loc>
     <lastmod>2021-12-16T09:09:19+09:00</lastmod>
   </url><url>
-    <loc>/posts/first-post/</loc>
-    <lastmod>2021-12-15T09:40:26+09:00</lastmod>
+    <loc>https://evesquare.netlify.app/categories/</loc>
   </url><url>
-    <loc>/categories/</loc>
-  </url><url>
-    <loc>/tags/</loc>
+    <loc>https://evesquare.netlify.app/tags/</loc>
   </url>
 </urlset>
