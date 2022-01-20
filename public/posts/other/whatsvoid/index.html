@@ -10,10 +10,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="no-referrer-when-downgrade">
 
-<title>00three.js - EveSquare</title>
+<title>EveSquare</title>
 
-<meta name="description" content="Three.jsとはなにか WebGLの本来複雑な処理を簡単に記述することが出来るライブラリ JavaScriptからWebGLを直接プログラミングするとき3Dシーンをアニメーションさせる 処理は非常に複雑で間違いを起こしやすい．そこでThree.jsを使うことで大幅に簡単にしてくれる．
- 単純あるいは複雑な3D形状の作成 3Dシーン上のオブジェクトのアニメーションや移動 オブジェクトへのテクスチャやマテリアルの適用 シーンを照らすさまざまな光源の利用 3Dモデリングソフトウェアからのオブジェクトの読み込み 3Dシーンへの高度なポストプロセッシング効果の追加 独自に作成したカスタムシェーダの使用 ポイントクラウドの作成  ">
+<meta name="description" content="javascript:void(0)とは リンクにマウスカーソルをホバーした時javascript:void(0)と表示される。これは一体何なのか。
+aタグのhrefとonclickが共存している場合に有効  onclickが実行されずにhrefのリンクに飛ばされてしまう。
+ そこでjavascript:void(0)をhrefに記述する事で、リンクに飛ばされずonclickが実行できる。
+仕組みとしては、void(0)というのは常にundefinedを返す特性があるため、href記述されたjavascript:void(0)はundefinedとなり、結果的に何も実行されないということだ。">
 
 <link rel="icon" type="image/x-icon" href="https://evesquare.netlify.app/favicon.ico">
 <link rel="apple-touch-icon-precomposed" href="https://evesquare.netlify.app/favicon.png">
@@ -41,19 +43,23 @@
 
 
 
-<meta property="og:title" content="00three.js" />
-<meta property="og:description" content="Three.jsとはなにか WebGLの本来複雑な処理を簡単に記述することが出来るライブラリ JavaScriptからWebGLを直接プログラミングするとき3Dシーンをアニメーションさせる 処理は非常に複雑で間違いを起こしやすい．そこでThree.jsを使うことで大幅に簡単にしてくれる．
- 単純あるいは複雑な3D形状の作成 3Dシーン上のオブジェクトのアニメーションや移動 オブジェクトへのテクスチャやマテリアルの適用 シーンを照らすさまざまな光源の利用 3Dモデリングソフトウェアからのオブジェクトの読み込み 3Dシーンへの高度なポストプロセッシング効果の追加 独自に作成したカスタムシェーダの使用 ポイントクラウドの作成  " />
+<meta property="og:title" content="" />
+<meta property="og:description" content="javascript:void(0)とは リンクにマウスカーソルをホバーした時javascript:void(0)と表示される。これは一体何なのか。
+aタグのhrefとonclickが共存している場合に有効  onclickが実行されずにhrefのリンクに飛ばされてしまう。
+ そこでjavascript:void(0)をhrefに記述する事で、リンクに飛ばされずonclickが実行できる。
+仕組みとしては、void(0)というのは常にundefinedを返す特性があるため、href記述されたjavascript:void(0)はundefinedとなり、結果的に何も実行されないということだ。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://evesquare.netlify.app/posts/threejs/00three/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-12-16T09:09:19+09:00" />
-<meta property="article:modified_time" content="2021-12-16T09:09:19+09:00" />
+<meta property="og:url" content="https://evesquare.netlify.app/posts/other/whatsvoid/" /><meta property="article:section" content="posts" />
+
+
 
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="00three.js"/>
-<meta name="twitter:description" content="Three.jsとはなにか WebGLの本来複雑な処理を簡単に記述することが出来るライブラリ JavaScriptからWebGLを直接プログラミングするとき3Dシーンをアニメーションさせる 処理は非常に複雑で間違いを起こしやすい．そこでThree.jsを使うことで大幅に簡単にしてくれる．
- 単純あるいは複雑な3D形状の作成 3Dシーン上のオブジェクトのアニメーションや移動 オブジェクトへのテクスチャやマテリアルの適用 シーンを照らすさまざまな光源の利用 3Dモデリングソフトウェアからのオブジェクトの読み込み 3Dシーンへの高度なポストプロセッシング効果の追加 独自に作成したカスタムシェーダの使用 ポイントクラウドの作成  "/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="javascript:void(0)とは リンクにマウスカーソルをホバーした時javascript:void(0)と表示される。これは一体何なのか。
+aタグのhrefとonclickが共存している場合に有効  onclickが実行されずにhrefのリンクに飛ばされてしまう。
+ そこでjavascript:void(0)をhrefに記述する事で、リンクに飛ばされずonclickが実行できる。
+仕組みとしては、void(0)というのは常にundefinedを返す特性があるため、href記述されたjavascript:void(0)はundefinedとなり、結果的に何も実行されないということだ。"/>
 
 
 
@@ -137,25 +143,20 @@
 
     <article class="post h-entry">
         <header class="post-header">
-            <h1 class="p-name post-title draft">00three.js</h1>
+            <h1 class="p-name post-title"></h1>
 
             
         </header>
         <div class="content e-content">
-            <h1 id="threejsとはなにか">Three.jsとはなにか</h1>
-<h2 id="webglの本来複雑な処理を簡単に記述することが出来るライブラリ">WebGLの本来複雑な処理を簡単に記述することが出来るライブラリ</h2>
-<p>JavaScriptからWebGLを直接プログラミングするとき3Dシーンをアニメーションさせる
-処理は非常に複雑で間違いを起こしやすい．そこでThree.jsを使うことで大幅に簡単にしてくれる．</p>
-<ul>
-<li>単純あるいは複雑な3D形状の作成</li>
-<li>3Dシーン上のオブジェクトのアニメーションや移動</li>
-<li>オブジェクトへのテクスチャやマテリアルの適用</li>
-<li>シーンを照らすさまざまな光源の利用</li>
-<li>3Dモデリングソフトウェアからのオブジェクトの読み込み</li>
-<li>3Dシーンへの高度なポストプロセッシング効果の追加</li>
-<li>独自に作成したカスタムシェーダの使用</li>
-<li>ポイントクラウドの作成</li>
-</ul>
+            <h1 id="javascriptvoid0とは">javascript:void(0)とは</h1>
+<p><img src="/images/other/javascriptvoid.png" alt="javascriptvoid"></p>
+<p>リンクにマウスカーソルをホバーした時<code>javascript:void(0)</code>と表示される。これは一体何なのか。</p>
+<h2 id="aタグのhrefとonclickが共存している場合に有効">aタグの<code>href</code>と<code>onclick</code>が共存している場合に有効</h2>
+<blockquote>
+<p><code>onclick</code>が実行されずに<code>href</code>のリンクに飛ばされてしまう。</p>
+</blockquote>
+<p>そこで<code>javascript:void(0)</code>を<code>href</code>に記述する事で、リンクに飛ばされず<code>onclick</code>が実行できる。</p>
+<p>仕組みとしては、<code>void(0)</code>というのは常に<code>undefined</code>を返す特性があるため、<code>href</code>記述された<code>javascript:void(0)</code>は<code>undefined</code>となり、結果的に何も実行されないということだ。</p>
 
         </div>
         
@@ -165,10 +166,8 @@
 
 <div class="post-info">
     
-        <div class="post-date dt-published">2021-12-16</div>
-    
 
-    <a class="post-hidden-url u-url" href="https://evesquare.netlify.app/posts/threejs/00three/">https://evesquare.netlify.app/posts/threejs/00three/</a>
+    <a class="post-hidden-url u-url" href="https://evesquare.netlify.app/posts/other/whatsvoid/">https://evesquare.netlify.app/posts/other/whatsvoid/</a>
     <a href="https://evesquare.netlify.app" class="p-name p-author post-hidden-author h-card" rel="me">EveSquare</a>
 
 
@@ -185,12 +184,10 @@
     <div class="pagination post-pagination">
         <div class="left pagination-item ">
             
-                <a href="/posts/threejs/01three/">01three.js</a>
+                <a href="/posts/books/sugoihidarikiki/"></a>
             
         </div>
-        <div class="right pagination-item ">
-            
-                <a href="/posts/books/sugoihidarikiki/"></a>
+        <div class="right pagination-item disabled">
             
         </div>
     </div>

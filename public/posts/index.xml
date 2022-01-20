@@ -115,10 +115,10 @@
     
     <item>
       <title>Chrome Extention</title>
-      <link>https://evesquare.netlify.app/posts/chrome-extention/</link>
+      <link>https://evesquare.netlify.app/posts/other/chrome-extention/</link>
       <pubDate>Thu, 16 Dec 2021 09:10:50 +0900</pubDate>
       
-      <guid>https://evesquare.netlify.app/posts/chrome-extention/</guid>
+      <guid>https://evesquare.netlify.app/posts/other/chrome-extention/</guid>
       <description>&lt;h1 id=&#34;web-extension-intercepting-request&#34;&gt;Web extension intercepting request&lt;/h1&gt;
 &lt;h3 id=&#34;やりたかったこと&#34;&gt;やりたかったこと&lt;/h3&gt;
 &lt;p&gt;GETリクエストのResponseBodyを取得したい．
@@ -293,6 +293,52 @@
 &lt;li&gt;独自に作成したカスタムシェーダの使用&lt;/li&gt;
 &lt;li&gt;ポイントクラウドの作成&lt;/li&gt;
 &lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://evesquare.netlify.app/posts/books/sugoihidarikiki/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://evesquare.netlify.app/posts/books/sugoihidarikiki/</guid>
+      <description>&lt;ol&gt;
+&lt;li&gt;ノートを買って「ひらめきノート」を一冊買う&lt;/li&gt;
+&lt;li&gt;そのノートを必ず1日に1ページは使う.ページには書いた日を書く&lt;/li&gt;
+&lt;li&gt;ひらめいたらノートにそのひらめきを書く&lt;/li&gt;
+&lt;li&gt;1週間に一度振り返りをする&lt;/li&gt;
+&lt;li&gt;ふりかえりが何を示しているかを考える&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;ひらめきチェックの方法&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;ひらめいたことが現実になっているか&lt;/li&gt;
+&lt;li&gt;それを見て,なにか書き加えたいことはないか．あったら書き加える&lt;/li&gt;
+&lt;li&gt;気になることは以前に同じことを書いていないか調べる&lt;/li&gt;
+&lt;li&gt;そのひらめきが何か役に立つことはないか考える&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;ルーティーンを変えてみる
+夢分析
+浮かんだことの優先順位をつける
+ワンクッション思考・直感
+ラジオ&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://evesquare.netlify.app/posts/other/whatsvoid/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://evesquare.netlify.app/posts/other/whatsvoid/</guid>
+      <description>&lt;h1 id=&#34;javascriptvoid0とは&#34;&gt;javascript:void(0)とは&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;https://evesquare.netlify.app/images/other/javascriptvoid.png&#34; alt=&#34;javascriptvoid&#34;&gt;&lt;/p&gt;
+&lt;p&gt;リンクにマウスカーソルをホバーした時&lt;code&gt;javascript:void(0)&lt;/code&gt;と表示される。これは一体何なのか。&lt;/p&gt;
+&lt;h2 id=&#34;aタグのhrefとonclickが共存している場合に有効&#34;&gt;aタグの&lt;code&gt;href&lt;/code&gt;と&lt;code&gt;onclick&lt;/code&gt;が共存している場合に有効&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;onclick&lt;/code&gt;が実行されずに&lt;code&gt;href&lt;/code&gt;のリンクに飛ばされてしまう。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;そこで&lt;code&gt;javascript:void(0)&lt;/code&gt;を&lt;code&gt;href&lt;/code&gt;に記述する事で、リンクに飛ばされず&lt;code&gt;onclick&lt;/code&gt;が実行できる。&lt;/p&gt;
+&lt;p&gt;仕組みとしては、&lt;code&gt;void(0)&lt;/code&gt;というのは常に&lt;code&gt;undefined&lt;/code&gt;を返す特性があるため、&lt;code&gt;href&lt;/code&gt;記述された&lt;code&gt;javascript:void(0)&lt;/code&gt;は&lt;code&gt;undefined&lt;/code&gt;となり、結果的に何も実行されないということだ。&lt;/p&gt;
 </description>
     </item>
     
